@@ -1,8 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 
 def main():
+    data_folder = Path("Mirror URL/")
+    file_to_open = data_folder / "official_urls.txt"
+    file_to_write = data_folder / "good_urls.txt"
+    
     # Making a request for the archilinux mirrors status page
     res = requests.get("https://www.archlinux.org/mirrors/status/")
 
@@ -35,7 +40,7 @@ def main():
     # print(len(urls))
     # print(urls)
 
-    with open("Mirror URL/official_urls.txt", 'r') as f:
+    with open(file_to_open, 'r') as f:
         lines = f.readlines()
 
         official_urls = lines[1::2]
@@ -45,7 +50,7 @@ def main():
         url = url.split("$")
         official_urls[i] = url[0]
 
-    with open("Mirror URL/good_urls.txt", "w") as f:
+    with open(file_to_write, "w") as f:
         for url in urls:
             if url in official_urls:
                 f.write(f'{url}$repo/os/$arch\n')
