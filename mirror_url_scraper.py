@@ -3,6 +3,7 @@ from contextlib import closing
 from pathlib import Path
 from urllib.request import urlopen
 
+import requests
 from bs4 import BeautifulSoup
 
 DATA_FOLDER = Path("Mirror URL/")
@@ -13,7 +14,7 @@ def main():
     file_to_write = DATA_FOLDER / "good_urls.txt"
 
     # Making a request for the archilinux mirrors status page
-    with closing(urlopen("https://www.archlinux.org/mirrors/status/")) as res:
+    with closing(requests.get("https://www.archlinux.org/mirrors/status/")) as res:
         # Assigning the parsed page to the soup variable
         soup = BeautifulSoup(res.text, "lxml")
 
